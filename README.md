@@ -4,6 +4,7 @@
 - Clean Architecture
 - Testes Unitarios
 - Testes de Integração;
+- Feature Flag
 
 #### Não Adicionado
 
