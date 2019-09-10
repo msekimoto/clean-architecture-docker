@@ -1,0 +1,23 @@
+# buildar uma image de container
+docker build -t webmotors_test_api .
+
+# rodar o container
+docker run -d -p 80:80 -e SQLSERVER_HOST=127.0.0.1 webmotorsapp:latest --network="host"
+
+# pegar ip do container
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' fe2d
+
+# rotear ip do container
+route -p add 172.17.0.2 MASK 255.255.255.0 10.0.75.1
+
+
+
+
+# rodar o container com parametros (alternativa)
+docker run -it --rm -p 80:80 --link sqlserver -e SQLSERVER_HOST=127.0.0.1 SQLSERVER_INSTANCE=SQLEXPRESS SQLSERVER_CATALOG=teste_webmotors SQLSERVER_USERNAME=USERDB SQLSERVER_PASSWORD=USERPWD webmotorsapp
+
+
+docker run -it --rm -p 80:80 --network="127.0.0.1" --link sqlserver -e SQLSERVER_HOST=127.0.0.1 webmotorsapp:latest 
+
+
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=MyPass@word" -e "MSSQL_PID=Express" -p 1433:1433 -d --name=sql microsoft/mssql-server-linux:latest

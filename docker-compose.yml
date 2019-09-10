@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 80:80    
+    build: .
+    extra_hosts:
+      - localhost:10.0.75.1
+    environment:
+      SQLSERVER_HOST: localhost
+      SQLSERVER_INSTANCE: SQLEXPRESS
+      SQLSERVER_CATALOG: teste_webmotors
+      SQLSERVER_PASSWORD: p@ssw0rd    
+      SQLSERVER_USERNAME: sa

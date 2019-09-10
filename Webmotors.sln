@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{2036C3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{271C94CF-6FFF-4328-B1B1-4E3ECF0D6D97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webmotors.UnitTests", "Webmotors.UnitTests\Webmotors.UnitTests.csproj", "{A2ECE23E-6EE5-4471-B9C3-ED0FC2CD906D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webmotors.UnitTests", "Webmotors.UnitTests\Webmotors.UnitTests.csproj", "{A2ECE23E-6EE5-4471-B9C3-ED0FC2CD906D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Webmotors.IntegrationTests", "Webmotors.IntegrationTests\Webmotors.IntegrationTests.csproj", "{D94B4DCC-3026-40A2-A443-7E42BD4DBC0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Webmotors.IntegrationTests", "Webmotors.IntegrationTests\Webmotors.IntegrationTests.csproj", "{D94B4DCC-3026-40A2-A443-7E42BD4DBC0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
