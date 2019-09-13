@@ -1,11 +1,7 @@
-USE [teste_webmotors]
+CREATE DATABASE [WMDB]
 GO
 
-/****** Object:  Table [dbo].[tb_anunciowebmotors]    Script Date: 11/09/2019 13:59:09 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+USE [WMDB]
 GO
 
 CREATE TABLE [dbo].[tb_anunciowebmotors](
