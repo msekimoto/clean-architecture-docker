@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Webmotors.Application.Boundaries.IncluirAnuncio;
 using Webmotors.Application.Repositories;
 using Webmotors.Application.Services.Interfaces;
 using Webmotors.Domain;
-using Webmotors.Domain.Anuncios;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using Webmotors.Domain.Veiculos;
 using IOutput = Webmotors.Application.Boundaries.IncluirAnuncio.IOutput;
 using IUseCase = Webmotors.Application.Boundaries.IncluirAnuncio.IUseCase;
@@ -14,6 +17,8 @@ namespace Webmotors.Application.UseCases
 {
     public class IncluirAnuncio : IUseCase
     {
+        private readonly IConfiguration _config;
+        private readonly IDistributedCache _cache;
         private readonly IOutput _outputHandler;
         private readonly IMarcaVeiculoService _marcaVeiculoService;
         private readonly IModeloVeiculoService _modeloVeiculoService;
@@ -29,8 +34,12 @@ namespace Webmotors.Application.UseCases
             IVersaoVeiculoService versaoVeiculoService,
             IAnuncioRepository anuncioRepository,
             IUnitOfWork unitOfWork,
-            IEntityFactory entityFactory)
+            IEntityFactory entityFactory,
+            IConfiguration config,
+            IDistributedCache cache)
         {
+            _config = config;
+            _cache = cache;
             _outputHandler = outputHandler;
             _marcaVeiculoService = marcaVeiculoService;
             _modeloVeiculoService = modeloVeiculoService;
@@ -81,6 +90,11 @@ namespace Webmotors.Application.UseCases
                 _outputHandler.NotFound($"Ocorreu um erro ao criar o anuncio, por favor tente novamente.");
                 return;
             }
+
+            var anuncioJson = JsonConvert.SerializeObject(anuncio);
+            DistributedCacheEntryOptions opcoesCache = new DistributedCacheEntryOptions();
+            opcoesCache.SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+            _cache.SetString($"Anuncio:{anuncio.ID}", anuncioJson, opcoesCache);
 
             IncluirAnuncioOutput incluirAnuncioOutput = new IncluirAnuncioOutput(anuncio);
             _outputHandler.Default(incluirAnuncioOutput);

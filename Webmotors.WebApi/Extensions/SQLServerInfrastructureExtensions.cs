@@ -23,8 +23,8 @@ namespace Webmotors.WebApi.Extensions
             if (string.IsNullOrEmpty(connectionString))
             {
                 var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST") ?? "localhost";
-                var instance = Environment.GetEnvironmentVariable("SQLSERVER_INSTANCE") ?? "SQLEXPRESS";
-                var catalog = Environment.GetEnvironmentVariable("SQLSERVER_CATALOG") ?? "teste_webmotors";
+                var instance = Environment.GetEnvironmentVariable("SQLSERVER_INSTANCE") ?? "sql";
+                var catalog = Environment.GetEnvironmentVariable("SQLSERVER_CATALOG") ?? "WMDB";
                 var username = Environment.GetEnvironmentVariable("SQLSERVER_USERNAME") ?? "sa";
                 var password = Environment.GetEnvironmentVariable("SQLSERVER_PASSWORD") ?? "p@ssw0rd";
 

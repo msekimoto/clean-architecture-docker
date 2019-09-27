@@ -25,6 +25,12 @@ namespace Webmotors.WebApi
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddControllersAsServices();
 
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("RedisConnection");
+                options.InstanceName = "redis";
+            });
+
             services.AddExternalIntegrations();
             services.AddBusinessExceptionFilter();
             services.AddFeatureFlags(Configuration);

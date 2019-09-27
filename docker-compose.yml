@@ -1,43 +1,49 @@
 version: "3.7"
 services:
   api:
-    container_name: webmotorsapp
-    hostname: webmotorsapp
+    container_name: app
+    hostname: app
     build:
       dockerfile: Dockerfile
     ports:
       - 80:80
-    # depends_on:
-      # - sql.data
     build: .
     extra_hosts:
       - localhost:10.0.75.1
     environment:
       SQLSERVER_HOST: localhost
-      SQLSERVER_INSTANCE: webmotorsdb
+      SQLSERVER_INSTANCE: sql
       SQLSERVER_CATALOG: WMDB
       SQLSERVER_PASSWORD: p@ssw0rd    
-      SQLSERVER_USERNAME: sa
+      SQLSERVER_USERNAME: sa     
   sql.data:
     image: microsoft/mssql-server-linux:latest 
-    container_name: webmotorsdb
-    hostname: webmotorsdb
-    # build:
-      # context: ./Dockerfile.wmdb1    
-      # dockerfile: Dockerfile.wmdb1
+    container_name: sql
+    hostname: sql
     ports:
       - 1433:1433    
     extra_hosts:
       - localhost:10.0.75.1
     environment:
       SA_PASSWORD: p@ssw0rd
-      ACCEPT_EULA: Y      
-  # sql.data.backup:
-    # container_name: wmdb2
-    # hostname: wmdb2
-    # build:
-      # dockerfile: Dockerfile.wmdb2
-    # ports:
-      # - 1434:1433    
-    # extra_hosts:
-      # - localhost:10.0.75.1
+      ACCEPT_EULA: Y          
+  seq:
+    image: datalust/seq:latest
+    hostname: seq
+    ports:
+      - 5341:5341   
+    extra_hosts:
+      - localhost:10.0.75.1      
+  # nosql.data:
+    # image: mongo
+    # hostname: nosql 
+  redis.data:
+    image: redis:alpine
+    hostname: redis
+    ports:
+      - 6379:6379   
+    extra_hosts:
+      - localhost:10.0.75.1        
+  # rabbitmq:
+    # image: rabbitmq:3-management-alpine   
+    # hostname: rabbit      

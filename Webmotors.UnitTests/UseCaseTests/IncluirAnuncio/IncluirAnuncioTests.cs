@@ -2,6 +2,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Webmotors.Application.Boundaries.IncluirAnuncio;
 using Webmotors.Application.Services.Interfaces;
@@ -39,6 +41,12 @@ namespace Webmotors.UnitTests.UseCaseTests.IncluirAnuncio
             mockVersaoVeiculoService.Setup(mo => mo.Buscar(It.IsAny<int>()))
                                     .Returns(Task.FromResult(versoes));
 
+            var mockDistrbutedCacheService = new Mock<IDistributedCache>();
+            mockDistrbutedCacheService.Setup(c => c.SetString(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<DistributedCacheEntryOptions>()));
+
             var outputHandler = new IncluirAnuncioPresenter();
 
             Application.UseCases.IncluirAnuncio incluirAnuncio = new Application.UseCases.IncluirAnuncio(
@@ -48,7 +56,9 @@ namespace Webmotors.UnitTests.UseCaseTests.IncluirAnuncio
                 mockVersaoVeiculoService.Object,
                 _fixture.AnuncioRepository,
                 _fixture.UnitOfWork,
-                _fixture.EntityFactory);
+                _fixture.EntityFactory,
+                It.IsAny<IConfiguration>(),
+                mockDistrbutedCacheService.Object);
 
             await incluirAnuncio.Execute(new IncluirAnuncioInput(1, 1, 6, 2014, 59000, $"Unit Test"));
 
